@@ -2,16 +2,16 @@
 const expressGraphql = require('express-graphql');
 const { buildSchema } = require('graphql');
 
-const Issues = require('../../issuesSQL/issuesSQL.js');
-const Blockchain = require('../../blockchain/blockchain.js')
+const Issues = require('../issuesSQL/issuesSQL.js');
+const Blockchain = require('../blockchain/blockchain.js')
 
 module.exports = app => {
-    app.use('/referendums/graphql', expressGraphql({
+    app.use('/graphql', expressGraphql({
         schema: schema, // schema: schema
         rootValue: root,
         graphiql: true
     }));
-    app.route('/referendums/analytics').get( (req, res) => {
+    app.route('/analytics').get( (req, res) => {
             res.json( Blockchain.dataDump() );
         });
 };

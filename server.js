@@ -2,15 +2,14 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const routes = require('./api/routes/Routes.js');
-const referendum = require('./api/graphql/graphql.js')
+const referendum = require('./graphql/graphql.js')
 
 const port = process.env.PORT || 3125;
 const server = express();
 
 /// re-add when not using graphiql
 
-const whitelist = [/localhost/, /chrskerr\.com/];
+const whitelist = [/localhost/, /wevote\.org\.au/];
 const corsOptionsDelegate = function (req, callback) {
     let corsOptions;
     whitelist.forEach( e => {
@@ -29,11 +28,10 @@ server.use(bodyParser.urlencoded({extended: true}));
 server.use(bodyParser.json());
 
 referendum(server);
-routes(server);
 server.listen(port);
 
 server.use((req, res) => {
     res.status(404).send({ url: req.originalUrl + " not found" })
 })
 
-console.log(`Graphql is running at http://localhost:${ port }/referendums/graphql`);
+console.log(`Graphql is running at http://localhost:${ port }/graphql`);
